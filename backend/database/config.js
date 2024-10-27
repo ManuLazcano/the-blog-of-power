@@ -1,5 +1,6 @@
 import path from 'node:path'
 import { DataTypes, Sequelize } from 'sequelize'
+import { populateDatabase } from './populateDatabase.js'
 
 const __dirname = path.dirname(new URL(import.meta.url).pathname.substring(1))
 
@@ -129,7 +130,6 @@ const Publication = sequelize.define('Publication', {
 Rol.hasMany(User)
 User.belongsTo(Rol, {
   foreignKey: {
-    name: 'rol_id',
     type: DataTypes.INTEGER,
     allowNull: false
   },
@@ -141,7 +141,6 @@ User.belongsTo(Rol, {
 User.hasMany(Publication)
 Publication.belongsTo(User, {
   foreignKey: {
-    name: 'user_id',
     type: DataTypes.UUID,
     allowNull: false
   },
@@ -153,7 +152,6 @@ Publication.belongsTo(User, {
 Federation.hasMany(Publication)
 Publication.belongsTo(Federation, {
   foreignKey: {
-    name: 'federation_id',
     type: DataTypes.INTEGER,
     allowNull: false
   },
@@ -161,4 +159,12 @@ Publication.belongsTo(Federation, {
   onUpdate: 'CASCADE'
 })
 
-await sequelize.sync()
+await sequelize.sync({ force: true })
+await populateDatabase()
+
+export {
+  Publication,
+  User,
+  Federation,
+  Rol
+}
