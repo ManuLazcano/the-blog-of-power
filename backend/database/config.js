@@ -28,6 +28,10 @@ const Rol = sequelize.define('Rol', {
       notEmpty: { msg: 'The "rol" field cannot be empty' }
     }
   }
+}, {
+  defaultScope: {
+    attributes: { exclude: ['createdAt', 'updatedAt'] }
+  }
 })
 
 const Federation = sequelize.define('Federation', {
@@ -48,6 +52,10 @@ const Federation = sequelize.define('Federation', {
       },
       notEmpty: { msg: 'The "federation" field cannot be empty' }
     }
+  }
+}, {
+  defaultScope: {
+    attributes: { exclude: ['createdAt', 'updatedAt'] }
   }
 })
 
@@ -99,6 +107,10 @@ const User = sequelize.define('User', {
     allowNull: false,
     validate: { notEmpty: { msg: 'The "password" field cannot be empty' } }
   }
+}, {
+  defaultScope: {
+    attributes: { exclude: ['createdAt', 'updatedAt'] }
+  }
 })
 
 const Publication = sequelize.define('Publication', {
@@ -123,6 +135,10 @@ const Publication = sequelize.define('Publication', {
     allowNull: false,
     defaultValue: Sequelize.literal('CURRENT_DATE'),
     validate: { notEmpty: { msg: 'The "publication_date" field cannot be empty' } }
+  }
+}, {
+  defaultScope: {
+    attributes: { exclude: ['createdAt', 'updatedAt'] }
   }
 })
 
