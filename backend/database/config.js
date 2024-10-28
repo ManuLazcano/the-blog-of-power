@@ -175,7 +175,7 @@ Publication.belongsTo(Federation, {
   onUpdate: 'CASCADE'
 })
 
-await sequelize.sync({ force: true })
+await sequelize.sync()
 await populateDatabase()
 
 export {

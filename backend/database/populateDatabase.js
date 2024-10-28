@@ -15,10 +15,10 @@ export async function populateDatabase () {
       publicationsData
     } = await createData()
 
-    await Rol.bulkCreate(rolesData)
-    await Federation.bulkCreate(federationsData)
-    await User.bulkCreate(usersData)
-    await Publication.bulkCreate(publicationsData)
+    await Rol.bulkCreate(rolesData, { validate: true })
+    await Federation.bulkCreate(federationsData, { validate: true })
+    await User.bulkCreate(usersData, { validate: true })
+    await Publication.bulkCreate(publicationsData, { validate: true })
 
     console.log('Database populated successfully!')
   } catch (error) {
