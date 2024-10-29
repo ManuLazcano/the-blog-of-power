@@ -1,5 +1,6 @@
 import { Router } from 'express'
 import { Federation, Publication, User } from '../database/config.js'
+import { validateParcialPublication, validatePublication } from '../schemas/publication.js'
 
 export const publicationRouter = Router()
 
@@ -37,13 +38,19 @@ publicationRouter.get('/:id', async (req, res) => {
 })
 
 publicationRouter.post('/', async (req, res) => {
-  const data = req.body // TODO: Validar datos
+  const result = validatePublication(req.body)
+  if (!result.success) {
+    return res.status(400).json({
+      message: 'Data validation error',
+      issues: result.error.errors
+    })
+  }
 
   try {
-    const newPublication = await Publication.create(data, {
+    const newPublication = await Publication.create(result.data, {
       fields: ['title', 'content', 'UserId', 'FederationId']
     })
-    res.json({ msg: `Publication created with ID: ${newPublication.id}` })
+    res.status(201).json({ msg: `Publication created with ID: ${newPublication.id}` })
   } catch (err) {
     console.error('Error: ', err)
     res.status(500).json({ message: 'An error occurred while creating a publication' })
@@ -52,14 +59,23 @@ publicationRouter.post('/', async (req, res) => {
 
 publicationRouter.patch('/:id', async (req, res) => {
   const { id } = req.params
-  const data = req.body // TODO: validar datos, solo permitir modificar el title, content, federationId
+  const result = validateParcialPublication(req.body)
+
+  if (!result.success) {
+    return res.status(400).json({
+      message: 'Data validation error',
+      issues: result.error.errors
+    })
+  }
 
   try {
     const publication = await Publication.findByPk(id)
     if (!publication) {
       return res.status(404).json({ message: 'Publication not found' })
     }
-    await publication.update(data)
+    await publication.update(result.data, {
+      fields: ['title', 'content', 'FederationId']
+    })
 
     res.json(publication)
   } catch (err) {
