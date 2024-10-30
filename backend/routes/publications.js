@@ -7,7 +7,7 @@ export const publicationRouter = Router()
 publicationRouter.get('/', async (req, res) => {
   try {
     const publications = await Publication.findAll()
-    res.json(publications)
+    res.status(200).json(publications)
   } catch (err) {
     console.error('Error: ', err)
     res.status(500).json({ message: 'Error fetching publicacionts' })
@@ -30,7 +30,7 @@ publicationRouter.get('/:id', async (req, res) => {
     if (!publicationDetail) {
       return res.status(404).json({ message: 'Publication not found' })
     }
-    res.json(publicationDetail)
+    res.status(200).json(publicationDetail)
   } catch (err) {
     console.error('Error: ', err)
     res.status(500).json({ error: 'An error occurred while fetching the publication' })
@@ -77,7 +77,7 @@ publicationRouter.patch('/:id', async (req, res) => {
       fields: ['title', 'content', 'FederationId']
     })
 
-    res.json(publication)
+    res.status(200).json(publication)
   } catch (err) {
     console.error('Error updating publication:', err)
     res.status(500).json({ message: 'An error occurred while updating the publication' })
