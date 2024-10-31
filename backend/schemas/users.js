@@ -1,7 +1,6 @@
 import z from 'zod'
 
 const userSchema = z.object({
-  id: z.string().uuid('El ID de usuario debe ser un UUID válido'),
   nick_name: z.string()
     .min(1, 'El campo "ninck_name" no puede estar vacío')
     .max(30, 'El campo "ninck_name" no debe exceder los 30 caracteres'),
