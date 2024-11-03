@@ -43,6 +43,11 @@ userRouter.post('/', async (req, res) => {
   }
 
   try {
+    const user = await User.findOne({ where: { email: result.data.email } })
+    if (user) {
+      return res.status(409).json({ message: 'User alreadys exists' })
+    }
+
     const hashedPassword = await bcrypt.hash(result.data.password, SALT_ROUNDS)
     const newUser = await User.create({
       ...result.data,
