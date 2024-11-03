@@ -5,6 +5,7 @@ import jwt from 'jsonwebtoken'
 import { User } from '../database/config.js'
 import { validateParcialUser, validateUser } from '../schemas/users.js'
 import { SALT_ROUNDS } from '../config.js'
+import { authenticateToken } from '../middlewares/authenticateToken.js'
 
 export const userRouter = Router()
 
@@ -33,7 +34,7 @@ userRouter.get('/:id', async (req, res) => {
   }
 })
 
-userRouter.post('/', async (req, res) => {
+userRouter.post('/', authenticateToken, async (req, res) => {
   const result = validateUser(req.body)
 
   if (!result.success) {
@@ -63,7 +64,7 @@ userRouter.post('/', async (req, res) => {
   }
 })
 
-userRouter.patch('/:id', async (req, res) => {
+userRouter.patch('/:id', authenticateToken, async (req, res) => {
   const { id } = req.params
   const result = validateParcialUser(req.body)
 
@@ -94,7 +95,7 @@ userRouter.patch('/:id', async (req, res) => {
   }
 })
 
-userRouter.delete('/:id', async (req, res) => {
+userRouter.delete('/:id', authenticateToken, async (req, res) => {
   const { id } = req.params
 
   try {
