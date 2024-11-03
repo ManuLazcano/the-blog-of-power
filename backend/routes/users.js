@@ -127,7 +127,7 @@ userRouter.post('/login', async (req, res) => {
       return res.status(404).json({ message: 'User does not exist' })
     }
 
-    const passwordIsValid = bcrypt.compare(result.data.password, user.password)
+    const passwordIsValid = await bcrypt.compare(result.data.password, user.password)
     if (!passwordIsValid) {
       return res.status(401).json({ message: 'Invalid credentials' })
     }
@@ -140,7 +140,14 @@ userRouter.post('/login', async (req, res) => {
       }
     )
 
-    res.status(200).json({ message: 'Valid authentication', token })
+    res
+      .cookie('access_token', token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'strict',
+        maxAge: 1000 * 60 * 60
+      })
+      .status(200).json({ message: 'Valid authentication', token })
   } catch (err) {
     console.error('Error: ', err)
     res.status(500).json({ message: 'An error occurred while logging in' })
