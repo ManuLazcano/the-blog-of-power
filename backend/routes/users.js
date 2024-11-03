@@ -153,3 +153,9 @@ userRouter.post('/login', async (req, res) => {
     res.status(500).json({ message: 'An error occurred while logging in' })
   }
 })
+
+userRouter.post('/logout', async (req, res) => {
+  res
+    .clearCookie('access_token')
+    .status(200).json({ message: 'Logout successful' })
+})
