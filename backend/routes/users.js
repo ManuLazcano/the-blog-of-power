@@ -4,10 +4,11 @@ import jwt from 'jsonwebtoken'
 
 import { User } from '../database/config.js'
 import { validateParcialUser, validateUser } from '../schemas/users.js'
-import { SALT_ROUNDS } from '../config.js'
 import { authenticateToken } from '../middlewares/authenticateToken.js'
 
 export const userRouter = Router()
+
+const SALT_ROUNDS = parseInt(process.env.SALT_ROUNDS)
 
 userRouter.get('/', async (req, res) => {
   try {
