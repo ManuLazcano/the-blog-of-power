@@ -1,5 +1,6 @@
 import { Router } from 'express'
 import bcrypt from 'bcrypt'
+import jwt from 'jsonwebtoken'
 
 import { User } from '../database/config.js'
 import { validateParcialUser, validateUser } from '../schemas/users.js'
@@ -107,5 +108,41 @@ userRouter.delete('/:id', async (req, res) => {
   } catch (err) {
     console.error('Error: ', err)
     res.status(500).json({ message: 'An error occurred while deleting the user' })
+  }
+})
+
+userRouter.post('/login', async (req, res) => {
+  const result = validateParcialUser(req.body)
+
+  if (!result.success) {
+    return res.status(400).json({
+      message: 'Data validation error',
+      issues: result.error.errors
+    })
+  }
+
+  try {
+    const user = await User.findOne({ where: { email: result.data.email } })
+    if (!user) {
+      return res.status(404).json({ message: 'User does not exist' })
+    }
+
+    const passwordIsValid = bcrypt.compare(result.data.password, user.password)
+    if (!passwordIsValid) {
+      return res.status(401).json({ message: 'Invalid credentials' })
+    }
+
+    const token = jwt.sign(
+      { id: user.id, email: user.email },
+      process.env.SECRET_JWT_KEY,
+      {
+        expiresIn: '1h'
+      }
+    )
+
+    res.status(200).json({ message: 'Valid authentication', token })
+  } catch (err) {
+    console.error('Error: ', err)
+    res.status(500).json({ message: 'An error occurred while logging in' })
   }
 })
