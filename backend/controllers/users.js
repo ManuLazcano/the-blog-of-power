@@ -1,0 +1,133 @@
+import { UserModel } from '../models/users.js'
+import { validateUser, validateParcialUser } from '../schemas/users.js'
+
+export class UserController {
+  static async getAll (req, res) {
+    try {
+      const users = await UserModel.getAll()
+      res.status(200).json(users)
+    } catch (err) {
+      console.error('Error: ', err)
+      res.status(500).json({ message: 'Error fetching users' })
+    }
+  }
+
+  static async getById (req, res) {
+    const { id } = req.params
+
+    try {
+      const userDetail = await UserModel.getById({ id })
+
+      if (!userDetail) {
+        return res.status(404).json({ message: 'User not found' })
+      }
+      res.status(200).json(userDetail)
+    } catch (err) {
+      console.error('Error: ', err)
+      res.status(500).json({ message: 'An error occurred while fetching the user' })
+    }
+  }
+
+  static async create (req, res) {
+    const result = validateUser(req.body)
+
+    if (!result.success) {
+      return res.status(400).json({
+        message: 'Data validation error',
+        issues: result.error.errors
+      })
+    }
+
+    try {
+      const newUser = await UserModel.create({ input: result.data })
+
+      if (!newUser) {
+        return res.status(409).json({ message: 'User alreadys exists' })
+      }
+      res.status(201).json({ message: `User created with ID: ${newUser.id}` })
+    } catch (err) {
+      console.error('Error: ', err)
+      res.status(500).json({ message: 'An error occurred while creating a user' })
+    }
+  }
+
+  static async update (req, res) {
+    const { id } = req.params
+    const result = validateParcialUser(req.body)
+
+    if (!result.success) {
+      return res.status(400).json({
+        message: 'Data validation error',
+        issues: result.error.errors
+      })
+    }
+
+    try {
+      const updatedUser = await UserModel.update({ id, input: result.data })
+
+      if (!updatedUser) {
+        return res.status(404).json({ message: 'User not found ' })
+      }
+      res.status(200).json({ message: `User with ID: ${id} updated successfully` })
+    } catch (err) {
+      console.error('Error updating user: ', err)
+      res.status(500).json({ message: 'An error occured while updating the user' })
+    }
+  }
+
+  static async delete (req, res) {
+    const { id } = req.params
+
+    try {
+      const user = await UserModel.delete({ id })
+
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' })
+      }
+      res.status(200).json({ message: 'User deleted successfully' })
+    } catch (err) {
+      console.error('Error: ', err)
+      res.status(500).json({ message: 'An error occurred while deleting the user' })
+    }
+  }
+
+  static async login (req, res) {
+    const result = validateParcialUser(req.body)
+
+    if (!result.success) {
+      return res.status(400).json({
+        message: 'Data validation error',
+        issues: result.error.errors
+      })
+    }
+
+    try {
+      const { user, passwordIsValid, token } = await UserModel.login({ input: result.data })
+      if (!user) {
+        return res.status(404).json({ message: 'User does not exist' })
+      }
+
+      if (!passwordIsValid) {
+        return res.status(401).json({ message: 'Invalid credentials' })
+      }
+
+      res
+        .cookie('access_token', token, {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === 'production',
+          sameSite: 'strict',
+          maxAge: 1000 * 60 * 60
+        })
+        .status(200).json({ message: 'Valid authentication', token })
+    } catch (err) {
+      console.error('Error: ', err)
+      res.status(500).json({ message: 'An error occurred while logging in' })
+    }
+  }
+
+  static async logout (req, res) {
+    res
+      .clearCookie('access_token')
+      .status(200).json({ message: 'Logout successful' })
+  }
+}
