@@ -102,13 +102,11 @@ export class UserController {
     }
 
     try {
-      const { user, passwordIsValid, token } = await UserModel.login({ input: result.data })
-      if (!user) {
-        return res.status(404).json({ message: 'User does not exist' })
-      }
+      const { error, token } = await UserModel.login({ input: result.data })
 
-      if (!passwordIsValid) {
-        return res.status(401).json({ message: 'Invalid credentials' })
+      if (error) {
+        const statusCode = error.code
+        return res.status(statusCode).json({ message: error.message })
       }
 
       res

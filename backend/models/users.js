@@ -62,12 +62,18 @@ export class UserModel {
   static async login ({ input }) {
     const user = await User.findOne({ where: { email: input.email } })
     if (!user) {
-      return { user }
+      return {
+        error: { code: 404, message: 'User does not exist' },
+        token: null
+      }
     }
 
     const passwordIsValid = await bcrypt.compare(input.password, user.password)
     if (!passwordIsValid) {
-      return { user, passwordIsValid }
+      return {
+        error: { code: 401, message: 'Invalid credentials' },
+        token: null
+      }
     }
 
     const token = jwt.sign(
@@ -78,6 +84,6 @@ export class UserModel {
       }
     )
 
-    return { user, passwordIsValid, token }
+    return { error: null, token }
   }
 }
