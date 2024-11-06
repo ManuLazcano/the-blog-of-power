@@ -79,10 +79,11 @@ export class UserController {
     const { id } = req.params
 
     try {
-      const user = await UserModel.delete({ id })
+      const { error } = await UserModel.delete({ id })
 
-      if (!user) {
-        return res.status(404).json({ message: 'User not found' })
+      if (error) {
+        const statusCode = error.code
+        return res.status(statusCode).json({ message: error.message })
       }
       res.status(200).json({ message: 'User deleted successfully' })
     } catch (err) {

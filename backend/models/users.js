@@ -53,10 +53,13 @@ export class UserModel {
     const user = await User.findByPk(id)
 
     if (!user) {
-      return undefined
+      return {
+        error: { code: 404, message: 'User does not exist' }
+      }
     }
 
-    return await user.destroy()
+    await user.destroy()
+    return { error: null }
   }
 
   static async login ({ input }) {
