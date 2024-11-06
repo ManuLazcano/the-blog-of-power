@@ -28,6 +28,17 @@ export class UserModel {
       }
     }
 
+    const userByNickName = await User.findOne({ where: { nick_name: input.nick_name } })
+    if (userByNickName) {
+      return {
+        error: {
+          code: 409,
+          message: 'User with this nick_name already exists'
+        },
+        newUser: null
+      }
+    }
+
     const hashedPassword = await bcrypt.hash(input.password, SALT_ROUNDS)
     const newUser = await User.create({
       ...input,
