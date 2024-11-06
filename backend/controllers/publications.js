@@ -4,7 +4,7 @@ import { validatePublication, validateParcialPublication } from '../schemas/publ
 export class PublicationController {
   static async getAll (req, res) {
     try {
-      const publications = await PublicationModel.getAll()
+      const { publications } = await PublicationModel.getAll()
       res.status(200).json(publications)
     } catch (err) {
       console.error('Error: ', err)
@@ -16,10 +16,11 @@ export class PublicationController {
     const { id } = req.params
 
     try {
-      const publicationDetail = await PublicationModel.getById({ id })
+      const { error, publicationDetail } = await PublicationModel.getById({ id })
 
-      if (!publicationDetail) {
-        return res.status(404).json({ message: 'Publication not found' })
+      if (error) {
+        const statusCode = error.code
+        return res.status(statusCode).json({ message: error.message })
       }
       res.status(200).json(publicationDetail)
     } catch (err) {
@@ -39,7 +40,7 @@ export class PublicationController {
     }
 
     try {
-      const newPublication = await PublicationModel.create({ input: result.data })
+      const { newPublication } = await PublicationModel.create({ input: result.data })
       res.status(201).json({ msg: `Publication created with ID: ${newPublication.id}` })
     } catch (err) {
       console.error('Error: ', err)
@@ -59,10 +60,11 @@ export class PublicationController {
     }
 
     try {
-      const updatedPublication = await PublicationModel.update({ id, input: result.data })
+      const { error, updatedPublication } = await PublicationModel.update({ id, input: result.data })
 
-      if (!updatedPublication) {
-        return res.status(404).json({ message: 'Publication not found' })
+      if (error) {
+        const statusCode = error.code
+        return res.status(statusCode).json({ message: error.message })
       }
       res.status(200).json(updatedPublication)
     } catch (err) {
@@ -75,10 +77,11 @@ export class PublicationController {
     const { id } = req.params
 
     try {
-      const deletedPublication = await PublicationModel.delete({ id })
+      const { error } = await PublicationModel.delete({ id })
 
-      if (!deletedPublication) {
-        return res.status(404).json({ message: 'Publication not found' })
+      if (error) {
+        const statusCode = error.code
+        return res.status(statusCode).json({ message: error.message })
       }
       res.status(200).json({ message: 'Publication deleted successfully' })
     } catch (err) {

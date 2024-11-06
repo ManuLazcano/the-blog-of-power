@@ -3,7 +3,7 @@ import { Publication, User, Federation } from '../database/config.js'
 export class PublicationModel {
   static async getAll () {
     const publications = await Publication.findAll()
-    return publications
+    return { publications }
   }
 
   static async getById ({ id }) {
@@ -17,38 +17,52 @@ export class PublicationModel {
       ]
     })
 
-    return publicationDetail
+    if (!publicationDetail) {
+      return {
+        error: { code: 404, message: 'Publication not found' },
+        publicationDetail: null
+      }
+    }
+
+    return { error: null, publicationDetail }
   }
 
   static async create ({ input }) {
-    const newPublicacion = await Publication.create(input, {
+    const newPublication = await Publication.create(input, {
       fields: ['title', 'content', 'UserId', 'FederationId']
     })
 
-    return newPublicacion
+    return { newPublication }
   }
 
   static async update ({ id, input }) {
     const publication = await Publication.findByPk(id)
 
     if (!publication) {
-      return undefined
+      return {
+        error: { code: 404, message: 'Publication not found' },
+        updatedPublication: null
+      }
     }
 
     await publication.update(input, {
       fields: ['title', 'content', 'FederationId']
     })
 
-    return publication
+    return { error: null, updatedPublication: publication }
   }
 
   static async delete ({ id }) {
     const publication = await Publication.findByPk(id)
 
     if (!publication) {
-      return undefined
+      return {
+        error: { code: 404, message: 'Publication not found' }
+      }
     }
 
-    return await publication.destroy()
+    await publication.destroy()
+
+    return { error: null }
   }
 }
