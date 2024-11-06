@@ -13,7 +13,15 @@ export class UserModel {
 
   static async getById ({ id }) {
     const userDetail = await User.findByPk(id)
-    return userDetail
+
+    if (!userDetail) {
+      return {
+        error: { code: 404, message: 'User does not exist' },
+        userDetail: null
+      }
+    }
+
+    return { error: null, userDetail }
   }
 
   static async create ({ input }) {

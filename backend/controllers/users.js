@@ -16,10 +16,11 @@ export class UserController {
     const { id } = req.params
 
     try {
-      const userDetail = await UserModel.getById({ id })
+      const { error, userDetail } = await UserModel.getById({ id })
 
-      if (!userDetail) {
-        return res.status(404).json({ message: 'User not found' })
+      if (error) {
+        const statusCode = error.code
+        return res.status(statusCode).json({ message: error.message })
       }
       res.status(200).json(userDetail)
     } catch (err) {
