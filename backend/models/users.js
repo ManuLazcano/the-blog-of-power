@@ -37,16 +37,20 @@ export class UserModel {
     const user = await User.findByPk(id)
 
     if (!user) {
-      return undefined
+      return {
+        error: { code: 404, message: 'User does not exist' }
+      }
     }
 
     if (input.password) {
       input.password = await bcrypt.hash(input.password, SALT_ROUNDS)
     }
 
-    return await user.update(input, {
+    await user.update(input, {
       fields: ['nick_name', 'name', 'email', 'password']
     })
+
+    return { error: null }
   }
 
   static async delete ({ id }) {

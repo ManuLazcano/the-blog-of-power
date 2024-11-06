@@ -63,10 +63,11 @@ export class UserController {
     }
 
     try {
-      const updatedUser = await UserModel.update({ id, input: result.data })
+      const { error } = await UserModel.update({ id, input: result.data })
 
-      if (!updatedUser) {
-        return res.status(404).json({ message: 'User not found ' })
+      if (error) {
+        const statusCode = error.code
+        return res.status(statusCode).json({ message: error.message })
       }
       res.status(200).json({ message: `User with ID: ${id} updated successfully` })
     } catch (err) {
