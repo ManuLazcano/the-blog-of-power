@@ -17,9 +17,15 @@ export class UserModel {
   }
 
   static async create ({ input }) {
-    const user = await User.findOne({ where: { email: input.email } })
-    if (user) {
-      return undefined
+    const userByEmail = await User.findOne({ where: { email: input.email } })
+    if (userByEmail) {
+      return {
+        error: {
+          code: 409,
+          message: 'User with this email already exists'
+        },
+        newUser: null
+      }
     }
 
     const hashedPassword = await bcrypt.hash(input.password, SALT_ROUNDS)
@@ -30,7 +36,7 @@ export class UserModel {
       fields: ['nick_name', 'name', 'email', 'password', 'RolId']
     })
 
-    return newUser
+    return { error: null, newUser }
   }
 
   static async update ({ id, input }) {

@@ -39,10 +39,11 @@ export class UserController {
     }
 
     try {
-      const newUser = await UserModel.create({ input: result.data })
+      const { error, newUser } = await UserModel.create({ input: result.data })
 
-      if (!newUser) {
-        return res.status(409).json({ message: 'User alreadys exists' })
+      if (error) {
+        const statusCode = error.code
+        return res.status(statusCode).json({ message: error.message })
       }
       res.status(201).json({ message: `User created with ID: ${newUser.id}` })
     } catch (err) {
