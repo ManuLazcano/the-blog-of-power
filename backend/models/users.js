@@ -8,7 +8,7 @@ const SALT_ROUNDS = parseInt(process.env.SALT_ROUNDS)
 export class UserModel {
   static async getAll () {
     const users = await User.findAll()
-    return users
+    return { users }
   }
 
   static async getById ({ id }) {

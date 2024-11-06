@@ -4,7 +4,7 @@ import { validateUser, validateParcialUser } from '../schemas/users.js'
 export class UserController {
   static async getAll (req, res) {
     try {
-      const users = await UserModel.getAll()
+      const { users } = await UserModel.getAll()
       res.status(200).json(users)
     } catch (err) {
       console.error('Error: ', err)
