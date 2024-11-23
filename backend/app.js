@@ -18,8 +18,8 @@ app.use(cors())
 app.use(cookieParser())
 app.disable('x-powered-by')
 
-app.use('/publication', publicationRouter)
-app.use('/user', userRouter)
+app.use('/api/publication', publicationRouter)
+app.use('/api/user', userRouter)
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`)
