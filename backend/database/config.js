@@ -175,6 +175,8 @@ Publication.belongsTo(Federation, {
   onUpdate: 'CASCADE'
 })
 
+// Si existen las tablas las borra:
+// await sequelize.sync({ force: true })
 await sequelize.sync()
 await populateDatabase()
 
