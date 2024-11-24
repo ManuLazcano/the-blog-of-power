@@ -1,8 +1,6 @@
-const PublicationList = () => {
+const PublicationList = ({ children }) => {
   return(
-    <>
-      <h1>PublicationList</h1>      
-    </>        
+    <section>{children}</section>     
   )
 }
 

@@ -1,8 +1,12 @@
-const PublicationItem = () => {
+const PublicationItem = ({ title, content, publication_date}) => {
   return(
-    <>
-      <h1>Publication Item</h1>      
-    </>        
+    <article>
+      <header>
+        <h3>{title}</h3>
+      </header>
+      <p>{content}</p>
+      <span>{publication_date}</span>
+    </article>        
   )
 }
 
