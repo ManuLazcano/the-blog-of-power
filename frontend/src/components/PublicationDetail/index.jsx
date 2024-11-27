@@ -13,8 +13,14 @@ const PublicationDetail = () => {
           <h1 className="text-3xl font-bold mb-4 text-gray-800">{publication.title}</h1>
         </header>
         <p className="text-gray-700 leading-relaxed mb-6 flex-grow">{publication.content}</p>
-        <footer className="mt-4 text-sm text-gray-500 border-t pt-2">
-          Publicado el: <span className="font-medium">{publication.publication_date}</span>
+        <footer>
+          <div className="flex justify-between">
+            <button className="min-w-[88.27px] bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Editar</button>
+            <button className=" bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Eliminar</button>
+          </div>
+          <div className='mt-4 text-sm text-gray-500 border-t pt-2'>
+            Publicado el: <span className="font-medium">{publication.publication_date}</span>
+          </div>
         </footer>
       </article>
       }    
