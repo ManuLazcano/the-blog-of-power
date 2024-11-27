@@ -7,7 +7,11 @@ const PublicationItem = ({ title, content, publication_date}) => {
       <p className="text-gray-700 line-clamp-3 flex-grow">{content}</p>
       <footer className="mt-4 flex justify-between items-center">
         <span className="text-sm text-gray-500">{publication_date}</span>
-        <button className=" bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Leer más</button>
+        <a 
+          className=" bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+          href="#">
+            Leer más
+        </a>
       </footer>
     </article>        
   )
