@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
-import { getPublicacion } from '../api/publicationApi'
+import { getAllPublication } from '../api/publicationApi'
 
-export const useFetchPublication = () => {
+export const useListPublications = () => {
   const [publications, setPublications] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -10,7 +10,7 @@ export const useFetchPublication = () => {
     const fetchPublications = async () => {
         setLoading(true)
         try {
-            const response = await getPublicacion()
+            const response = await getAllPublication()
             setPublications(response.data)
         } catch (error) {
             setError(error)

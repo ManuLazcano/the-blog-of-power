@@ -1,10 +1,10 @@
-import { useFetchPublication } from '../../hooks/useFetchPublication'
+import { useListPublications } from '../../hooks/useListPublications'
 import { PublicationList } from '../../components/PublicationList'
 import { PublicationItem } from '../../components/PublicationItem'
 
 
 const Home = () => {
-  const { publications, loading, error } = useFetchPublication()
+  const { publications, loading, error } = useListPublications()
 
   return (
     <main className='p-4 max-w-max mx-auto'>   
