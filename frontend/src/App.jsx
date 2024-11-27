@@ -10,10 +10,12 @@ function App() {
   return (
     <>
       <NavBar />
-      <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='/publication/:id' element={<PublicationDetail />} />
-      </Routes>
+      <main className='p-4 max-w-max mx-auto'>
+        <Routes>
+          <Route path='/' element={<Home />} />
+          <Route path='/publication/:id' element={<PublicationDetail />} />
+        </Routes>
+      </main>
     </>
   )
 }

@@ -7,7 +7,7 @@ const Home = () => {
   const { publications, loading, error } = useListPublications()
 
   return (
-    <main className='p-4 max-w-max mx-auto'>   
+    <>   
       <PublicationList >
         {loading && <p>Cargando...</p> /**TODO: Crear su propio componente */}
         {error && <p>Hubo un error</p> /**TODO: Crear su propio componente */}
@@ -20,7 +20,7 @@ const Home = () => {
             publication_date={publication_date}/>
         ))}
       </PublicationList >
-    </main>
+    </>
   )
 }
 
