@@ -10,7 +10,7 @@ function App() {
   return (
     <>
       <NavBar />
-      <main className='p-4 max-w-max mx-auto'>
+      <main className='p-4 flex justify-center'>
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/publication/:id' element={<PublicationDetail />} />

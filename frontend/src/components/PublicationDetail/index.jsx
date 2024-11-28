@@ -27,7 +27,7 @@ const PublicationDetail = () => {
   }
 
   return (
-    <section className='h-screen'>
+    <section className='h-screen w-full'>
       {loading && <p>Cargando...</p> /**TODO: Crear su propio componente */}
       {error && <p>Hubo un error</p> /**TODO: Crear su propio componente */}      
       {!loading && publication &&         
