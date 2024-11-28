@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState } from 'react'
+import { login } from '../../api/loginApi'
 
 const SingIn = () => {
   const [email, setEmail] = useState('');
@@ -7,7 +8,26 @@ const SingIn = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log('Enviado');    
+
+    // Validación simple
+    if (!email || !password) {
+      setError('Por favor, completa todos los campos');
+      return;
+    }
+
+    try {
+      setError(''); 
+      const response = await login({ email, password})
+
+      if (!response) {
+        throw new Error('Credenciales inválidas');
+      }
+
+      console.log('Inicio de sesión exitoso:', response.data);
+      // TODO: Redirigir al Home
+    } catch (err) {
+      setError(err.message || 'Hubo un error al iniciar sesión');
+    }
   };
 
   return (
