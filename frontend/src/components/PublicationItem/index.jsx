@@ -10,7 +10,7 @@ const PublicationItem = ({ id, title, content, publication_date}) => {
       <footer className="mt-4 flex justify-between items-center">
         <span className="text-sm text-gray-500">{publication_date}</span>
         <Link
-          className=" bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
           to={`/publication/${id}`}>
             Leer más
         </Link>

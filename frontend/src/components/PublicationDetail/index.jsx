@@ -1,7 +1,7 @@
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { deletePublication } from '../../api/publicationApi'
 import { usePublication } from '../../hooks/usePublication'
-import { useState } from 'react'
 
 const PublicationDetail = () => {
   const { publication, loading, error } = usePublication()
@@ -21,13 +21,13 @@ const PublicationDetail = () => {
         }        
       } catch (error) {
         console.error(error)
-        setDeleteError('Ocurrió un error al eliminar la publicación')
+        setDeleteError("Ocurrió un error al eliminar la publicación")
       }
     }
   }
 
   return (
-    <section className='h-screen w-full'>
+    <section className="h-screen w-full">
       {loading && <p>Cargando...</p> /**TODO: Crear su propio componente */}
       {error && <p>Hubo un error</p> /**TODO: Crear su propio componente */}      
       {!loading && publication &&         
@@ -40,13 +40,13 @@ const PublicationDetail = () => {
           <div className="flex justify-between">
             <button className="min-w-[88.27px] bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Editar</button>
             <button 
-              className=" bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+              className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
               onClick={handleDelete}>
                 Eliminar
             </button>            
           </div>
           {deleteError && <p className="text-red-500 mt-2">{deleteError}</p>}
-          <div className='mt-4 text-sm text-gray-500 border-t pt-2'>
+          <div className="mt-4 text-sm text-gray-500 border-t pt-2">
             Publicado el: <span className="font-medium">{publication.publication_date}</span>
           </div>
         </footer>
