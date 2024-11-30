@@ -1,9 +1,26 @@
 import { useContext } from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
+
 import { AuthContext } from '../../context/authContex'
+import { logout } from '../../api/userApi'
 
 const NavBar = () => {
-  const { userAuth } = useContext(AuthContext)
+  const { userAuth, setUserAuth} = useContext(AuthContext)
+  const navigate = useNavigate()
+
+  const handleLogout = async () => {
+    try {
+      const response = await logout()
+      if(!response) {
+        throw new Error('Error al cerrar sesión');
+      }      
+
+      setUserAuth(null)
+      navigate('/')
+    } catch (error) {
+      console.error(error.message)
+    }
+  }
     
   return (
     <header className="bg-gray-800 text-white p-5 mb-7">
@@ -33,7 +50,7 @@ const NavBar = () => {
           )}
           <li>
             {userAuth ? (
-              <span>Logout</span>
+              <button onClick={handleLogout}>Logout</button>
             ):
             (
               <NavLink to="/login" className={({ isActive }) => 

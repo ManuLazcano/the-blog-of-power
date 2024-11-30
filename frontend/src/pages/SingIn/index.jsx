@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 
 import { loginSchema } from '../../../../shared/schemas/user'
-import { login } from '../../api/loginApi'
+import { login } from '../../api/userApi'
 import { AuthContext } from '../../context/authContex'
 
 const SingIn = () => {
