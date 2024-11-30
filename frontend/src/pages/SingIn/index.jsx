@@ -1,29 +1,22 @@
 import { useContext, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useForm } from 'react-hook-form'
+
 import { login } from '../../api/loginApi'
 import { AuthContext } from '../../context/authContex'
-import { useNavigate } from 'react-router-dom'
 
 const SingIn = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const { register, handleSubmit, formState: { errors} } = useForm()
   const [error, setError] = useState('');
-
-  const navigate = useNavigate()
+  
   const { setUserAuth } = useContext(AuthContext)
+  const navigate = useNavigate()
 
-  //TODO: usar react hook form
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-
-    // TODO: Usar Zod para validación
-    if (!email || !password) {
-      setError('Por favor, completa todos los campos');
-      return;
-    }
-
+  // TODO: Usar Zod para validación
+  const onSubmit = async (data) => {
     try {
       setError(''); 
-      const response = await login({ email, password})
+      const response = await login(data)
 
       if (!response) {
         throw new Error('Credenciales inválidas');
@@ -39,7 +32,7 @@ const SingIn = () => {
   return (
     <div className="w-full flex items-center justify-center h-screen bg-gray-100">
       <form 
-        onSubmit={handleSubmit} 
+        onSubmit={handleSubmit(onSubmit)} 
         className="bg-white shadow-md rounded px-8 pt-6 pb-8 w-full max-w-sm"
       >
         <h2 className="text-2xl font-bold mb-6 text-center">Iniciar Sesión</h2>
@@ -56,11 +49,11 @@ const SingIn = () => {
           <input
             type="email"
             id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            {...register('email', { required: 'El email es obligatorio' })}            
             placeholder="Ingresa tu email"
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           />
+          {errors.email && <p className="text-red-500">{errors.email.message}</p>}
         </div>
 
         <div className="mb-4">
@@ -73,11 +66,17 @@ const SingIn = () => {
           <input
             type="password"
             id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            {...register('password', {
+              required: 'La contraseña es obligatoria',
+              minLength: {
+                value: 6,
+                message: 'La contraseña debe tener al menos 6 caracteres'
+              }
+            })}            
             placeholder="Ingresa tu contraseña"
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           />
+          {errors.password && <p className="text-red-500">{errors.password.message}</p>}
         </div>
 
         <div className="mt-6 flex flex-col gap-4">
