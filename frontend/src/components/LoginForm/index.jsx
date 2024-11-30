@@ -1,5 +1,5 @@
 import { useContext, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 
@@ -81,12 +81,12 @@ const LoginForm = () => {
             >
               Iniciar sesión
             </button>
-            <a // TODO: Link
-              href="/register" 
+            <Link
+              to={'/createAccount'}
               className="inline-block align-baseline font-bold text-md text-gray-500 hover:text-gray-800 self-center"
             >
               Crear cuenta
-            </a>
+            </Link>
           </div>
         </form>
       </div>
