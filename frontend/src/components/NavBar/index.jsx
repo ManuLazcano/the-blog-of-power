@@ -1,6 +1,9 @@
+import { useContext } from 'react'
 import { NavLink } from 'react-router-dom'
+import { AuthContext } from '../../context/authContex'
 
 const NavBar = () => {
+  const { userAuth } = useContext(AuthContext)
     
   return (
     <header className="bg-gray-800 text-white p-5 mb-7">
@@ -17,23 +20,31 @@ const NavBar = () => {
           </li>
         </ul>
         <ul className="flex gap-6">
+          {userAuth && (
+            <li>
+              <NavLink to="/perfil" className={({ isActive }) => 
+                  `px-4 py-2 rounded ${isActive ? 'bg-gray-700' : 'hover:bg-gray-700'}`
+                }
+                aria-current={isActive => isActive ? 'page' : undefined}
+              >
+                Perfil
+              </NavLink>
+            </li>
+          )}
           <li>
-            <NavLink to="/perfil" className={({ isActive }) => 
+            {userAuth ? (
+              <span>Logout</span>
+            ):
+            (
+              <NavLink to="/login" className={({ isActive }) => 
                 `px-4 py-2 rounded ${isActive ? 'bg-gray-700' : 'hover:bg-gray-700'}`
               }
               aria-current={isActive => isActive ? 'page' : undefined}
-            >
-              Perfil
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/login" className={({ isActive }) => 
-                `px-4 py-2 rounded ${isActive ? 'bg-gray-700' : 'hover:bg-gray-700'}`
-              }
-              aria-current={isActive => isActive ? 'page' : undefined}
-            >
-              Login
-            </NavLink>
+              >
+                Login
+              </NavLink>
+            )
+            }            
           </li>
         </ul>
       </nav>
