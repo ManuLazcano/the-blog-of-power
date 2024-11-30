@@ -1,15 +1,21 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { login } from '../../api/loginApi'
+import { AuthContext } from '../../context/authContex'
+import { useNavigate } from 'react-router-dom'
 
 const SingIn = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
+  const navigate = useNavigate()
+  const { setUserAuth } = useContext(AuthContext)
+
+  //TODO: usar react hook form
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    // Validación simple
+    // TODO: Usar Zod para validación
     if (!email || !password) {
       setError('Por favor, completa todos los campos');
       return;
@@ -23,8 +29,8 @@ const SingIn = () => {
         throw new Error('Credenciales inválidas');
       }
 
-      console.log('Inicio de sesión exitoso:', response.data);
-      // TODO: Redirigir al Home
+      setUserAuth(response.data) // El backend devuelve información. Ej: id del usuario
+      navigate('/')
     } catch (err) {
       setError(err.message || 'Hubo un error al iniciar sesión');
     }
