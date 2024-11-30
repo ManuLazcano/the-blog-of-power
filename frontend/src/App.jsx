@@ -3,7 +3,7 @@ import { NavBar } from './components/NavBar'
 
 import { PublicationDetail } from './components/PublicationDetail'
 import { Home } from './pages/Home'
-import { SingIn } from './pages/SingIn'
+import { SignIn } from './pages/SignIn'
 
 function App() {
   
@@ -14,7 +14,7 @@ function App() {
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/publication/:id' element={<PublicationDetail />} />
-          <Route path='/login' element={<SingIn />} />
+          <Route path='/login' element={<SignIn />} />
         </Routes>
       </main>
     </>

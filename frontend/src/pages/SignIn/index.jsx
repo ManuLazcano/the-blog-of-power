@@ -7,7 +7,7 @@ import { loginSchema } from '../../../../shared/schemas/user'
 import { login } from '../../api/userApi'
 import { AuthContext } from '../../context/authContex'
 
-const SingIn = () => {
+const SignIn = () => {
   const { register, handleSubmit, formState: { errors} } = useForm({ resolver: zodResolver(loginSchema) })
   const [error, setError] = useState('');
   
@@ -93,4 +93,4 @@ const SingIn = () => {
   )
 }
 
-export { SingIn }
+export { SignIn }
