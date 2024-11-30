@@ -9,18 +9,29 @@ const userSchema = z.object({
     .max(50, 'El campo "name" no debe exceder los 50 caracteres'),
   email: z.string()
     .email('El correo electrónico no es válido')
-    .min(1, 'El campo "email" no puede estar vacío')
+    .min(1, 'Ingrese un email')
     .max(60, 'El "email" no debe exceder los 60 caracteres'),
-  password: z.string().min(1, 'El campo "password" no puede estar vacío'),
+  password: z.string().min(1, 'Ingrese una contraseña'),
   RolId: z.number()
     .int()
     .positive('El ID del rol debe ser un número entero positivo')
 })
 
-export const validateUser = (object) => {
+const loginSchema = userSchema.pick({
+  email: true,
+  password: true
+})
+
+const validateUser = (object) => {
   return userSchema.safeParse(object)
 }
 
-export const validateParcialUser = (object) => {
+const validateParcialUser = (object) => {
   return userSchema.partial().safeParse(object)
+}
+
+export {
+    loginSchema,
+    validateUser,
+    validateParcialUser
 }

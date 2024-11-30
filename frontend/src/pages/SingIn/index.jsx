@@ -1,18 +1,19 @@
 import { useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
 
+import { loginSchema } from '../../../../shared/schemas/user'
 import { login } from '../../api/loginApi'
 import { AuthContext } from '../../context/authContex'
 
 const SingIn = () => {
-  const { register, handleSubmit, formState: { errors} } = useForm()
+  const { register, handleSubmit, formState: { errors} } = useForm({ resolver: zodResolver(loginSchema) })
   const [error, setError] = useState('');
   
   const { setUserAuth } = useContext(AuthContext)
   const navigate = useNavigate()
 
-  // TODO: Usar Zod para validación
   const onSubmit = async (data) => {
     try {
       setError(''); 
@@ -22,7 +23,7 @@ const SingIn = () => {
         throw new Error('Credenciales inválidas');
       }
 
-      setUserAuth(response.data) // El backend devuelve información. Ej: id del usuario
+      setUserAuth(response.data)
       navigate('/')
     } catch (err) {
       setError(err.message || 'Hubo un error al iniciar sesión');
@@ -49,7 +50,7 @@ const SingIn = () => {
           <input
             type="email"
             id="email"
-            {...register('email', { required: 'El email es obligatorio' })}            
+            {...register('email')}            
             placeholder="Ingresa tu email"
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           />
@@ -66,13 +67,7 @@ const SingIn = () => {
           <input
             type="password"
             id="password"
-            {...register('password', {
-              required: 'La contraseña es obligatoria',
-              minLength: {
-                value: 6,
-                message: 'La contraseña debe tener al menos 6 caracteres'
-              }
-            })}            
+            {...register('password')}            
             placeholder="Ingresa tu contraseña"
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           />
