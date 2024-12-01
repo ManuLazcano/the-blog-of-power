@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken'
 import { User } from '../database/config.js'
 
 const SALT_ROUNDS = parseInt(process.env.SALT_ROUNDS)
+const ADMIN = 1
 
 export class UserModel {
   static async getAll () {
@@ -108,8 +109,9 @@ export class UserModel {
       }
     }
 
+    const isAdmin = user.RolId === ADMIN
     const token = jwt.sign(
-      { id: user.id, email: user.email },
+      { id: user.id, isAdmin },
       process.env.SECRET_JWT_KEY,
       {
         expiresIn: '1h'
