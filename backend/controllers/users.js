@@ -40,7 +40,8 @@ export class UserController {
     }
 
     try {
-      const { error, newUser } = await UserModel.create({ input: result.data })
+      const input = { ...result.data, RolId: 2 }
+      const { error, newUser } = await UserModel.create({ input })
 
       if (error) {
         const statusCode = error.code

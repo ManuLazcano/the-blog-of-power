@@ -11,10 +11,7 @@ const userSchema = z.object({
     .email('El correo electrónico no es válido')
     .min(1, 'Ingrese un email')
     .max(60, 'El "email" no debe exceder los 60 caracteres'),
-  password: z.string().min(1, 'Ingrese una contraseña'),
-  RolId: z.number()
-    .int()
-    .positive('El ID del rol debe ser un número entero positivo')
+  password: z.string().min(1, 'Ingrese una contraseña')
 })
 
 const loginSchema = userSchema.pick({
