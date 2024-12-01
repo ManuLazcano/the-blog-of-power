@@ -52,12 +52,18 @@ export class PublicationModel {
     return { error: null, updatedPublication: publication }
   }
 
-  static async delete ({ id }) {
+  static async delete ({ id, userId }) {
     const publication = await Publication.findByPk(id)
 
     if (!publication) {
       return {
         error: { code: 404, message: 'Publication not found' }
+      }
+    }
+
+    if (publication.UserId !== userId) {
+      return {
+        error: { code: 403, message: 'No permits required' }
       }
     }
 

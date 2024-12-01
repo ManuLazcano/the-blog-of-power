@@ -75,9 +75,10 @@ export class PublicationController {
 
   static async delete (req, res) {
     const { id } = req.params
+    const userId = req.user.id
 
     try {
-      const { error } = await PublicationModel.delete({ id })
+      const { error } = await PublicationModel.delete({ id, userId })
 
       if (error) {
         const statusCode = error.code
