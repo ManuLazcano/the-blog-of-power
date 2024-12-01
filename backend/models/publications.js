@@ -35,13 +35,19 @@ export class PublicationModel {
     return { newPublication }
   }
 
-  static async update ({ id, input }) {
+  static async update ({ id, input, userId }) {
     const publication = await Publication.findByPk(id)
 
     if (!publication) {
       return {
         error: { code: 404, message: 'Publication not found' },
         updatedPublication: null
+      }
+    }
+
+    if (publication.UserId !== userId) {
+      return {
+        error: { code: 403, message: 'No permits required' }
       }
     }
 

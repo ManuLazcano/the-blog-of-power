@@ -51,6 +51,7 @@ export class PublicationController {
   static async update (req, res) {
     const { id } = req.params
     const result = validateParcialPublication(req.body)
+    const userId = req.user.id
 
     if (!result.success) {
       return res.status(400).json({
@@ -60,7 +61,8 @@ export class PublicationController {
     }
 
     try {
-      const { error, updatedPublication } = await PublicationModel.update({ id, input: result.data })
+      const input = result.data
+      const { error, updatedPublication } = await PublicationModel.update({ id, input, userId })
 
       if (error) {
         const statusCode = error.code
