@@ -35,7 +35,7 @@ export class PublicationModel {
     return { newPublication }
   }
 
-  static async update ({ id, input, userId }) {
+  static async update ({ id, input, userId, isAdmin }) {
     const publication = await Publication.findByPk(id)
 
     if (!publication) {
@@ -45,7 +45,7 @@ export class PublicationModel {
       }
     }
 
-    if (publication.UserId !== userId) {
+    if (publication.UserId !== userId && !isAdmin) {
       return {
         error: { code: 403, message: 'No permits required' }
       }
@@ -58,7 +58,7 @@ export class PublicationModel {
     return { error: null, updatedPublication: publication }
   }
 
-  static async delete ({ id, userId }) {
+  static async delete ({ id, userId, isAdmin }) {
     const publication = await Publication.findByPk(id)
 
     if (!publication) {
@@ -67,7 +67,7 @@ export class PublicationModel {
       }
     }
 
-    if (publication.UserId !== userId) {
+    if (publication.UserId !== userId && !isAdmin) {
       return {
         error: { code: 403, message: 'No permits required' }
       }

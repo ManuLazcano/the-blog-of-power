@@ -51,7 +51,7 @@ export class PublicationController {
   static async update (req, res) {
     const { id } = req.params
     const result = validateParcialPublication(req.body)
-    const userId = req.user.id
+    const { id: userId, isAdmin } = req.user
 
     if (!result.success) {
       return res.status(400).json({
@@ -62,7 +62,7 @@ export class PublicationController {
 
     try {
       const input = result.data
-      const { error, updatedPublication } = await PublicationModel.update({ id, input, userId })
+      const { error, updatedPublication } = await PublicationModel.update({ id, input, userId, isAdmin })
 
       if (error) {
         const statusCode = error.code
@@ -77,10 +77,10 @@ export class PublicationController {
 
   static async delete (req, res) {
     const { id } = req.params
-    const userId = req.user.id
+    const { id: userId, isAdmin } = req.user
 
     try {
-      const { error } = await PublicationModel.delete({ id, userId })
+      const { error } = await PublicationModel.delete({ id, userId, isAdmin })
 
       if (error) {
         const statusCode = error.code
