@@ -3,8 +3,15 @@ import { validateUser, validateParcialUser } from '../../shared/schemas/user.js'
 
 export class UserController {
   static async getAll (req, res) {
+    const { isAdmin } = req.user
+
     try {
-      const { users } = await UserModel.getAll()
+      const { error, users } = await UserModel.getAll({ isAdmin })
+      if (error) {
+        const statusCode = error.code
+        return res.status(statusCode).json({ message: error.message })
+      }
+
       res.status(200).json(users)
     } catch (err) {
       console.error('Error: ', err)
@@ -14,9 +21,10 @@ export class UserController {
 
   static async getById (req, res) {
     const { id } = req.params
+    const { id: userId, isAdmin } = req.user
 
     try {
-      const { error, userDetail } = await UserModel.getById({ id })
+      const { error, userDetail } = await UserModel.getById({ id, userId, isAdmin })
 
       if (error) {
         const statusCode = error.code
@@ -57,6 +65,7 @@ export class UserController {
   static async update (req, res) {
     const { id } = req.params
     const result = validateParcialUser(req.body)
+    const { id: userId, isAdmin } = req.user
 
     if (!result.success) {
       return res.status(400).json({
@@ -66,7 +75,8 @@ export class UserController {
     }
 
     try {
-      const { error } = await UserModel.update({ id, input: result.data })
+      const input = result.data
+      const { error } = await UserModel.update({ id, input, userId, isAdmin })
 
       if (error) {
         const statusCode = error.code
@@ -81,9 +91,10 @@ export class UserController {
 
   static async delete (req, res) {
     const { id } = req.params
+    const { id: userId, isAdmin } = req.user
 
     try {
-      const { error } = await UserModel.delete({ id })
+      const { error } = await UserModel.delete({ id, userId, isAdmin })
 
       if (error) {
         const statusCode = error.code

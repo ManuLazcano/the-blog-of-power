@@ -7,17 +7,31 @@ const SALT_ROUNDS = parseInt(process.env.SALT_ROUNDS)
 const ADMIN = 1
 
 export class UserModel {
-  static async getAll () {
+  static async getAll ({ isAdmin }) {
+    if (!isAdmin) {
+      return {
+        error: { code: 403, message: 'No permits required' },
+        users: null
+      }
+    }
+
     const users = await User.findAll()
-    return { users }
+    return { error: null, users }
   }
 
-  static async getById ({ id }) {
+  static async getById ({ id, userId, isAdmin }) {
     const userDetail = await User.findByPk(id)
 
     if (!userDetail) {
       return {
         error: { code: 404, message: 'User does not exist' },
+        userDetail: null
+      }
+    }
+
+    if (userDetail.id !== userId && !isAdmin) {
+      return {
+        error: { code: 403, message: 'No permits required' },
         userDetail: null
       }
     }
@@ -59,12 +73,18 @@ export class UserModel {
     return { error: null, newUser }
   }
 
-  static async update ({ id, input }) {
+  static async update ({ id, input, userId, isAdmin }) {
     const user = await User.findByPk(id)
 
     if (!user) {
       return {
         error: { code: 404, message: 'User does not exist' }
+      }
+    }
+
+    if (user.id !== userId && !isAdmin) {
+      return {
+        error: { code: 403, message: 'No permits required' }
       }
     }
 
@@ -79,12 +99,18 @@ export class UserModel {
     return { error: null }
   }
 
-  static async delete ({ id }) {
+  static async delete ({ id, userId, isAdmin }) {
     const user = await User.findByPk(id)
 
     if (!user) {
       return {
         error: { code: 404, message: 'User does not exist' }
+      }
+    }
+
+    if (user.id !== userId && !isAdmin) {
+      return {
+        error: { code: 403, message: 'No permits required' }
       }
     }
 
