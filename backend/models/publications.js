@@ -47,7 +47,8 @@ export class PublicationModel {
 
     if (publication.UserId !== userId && !isAdmin) {
       return {
-        error: { code: 403, message: 'No permits required' }
+        error: { code: 403, message: 'No permits required' },
+        updatedPublication: null
       }
     }
 
