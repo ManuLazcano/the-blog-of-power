@@ -7,7 +7,6 @@ const PublicationDetail = () => {
   const { publication, loading, error } = usePublication()
   const [deleteError, setDeleteError] = useState(null)
   const navigate = useNavigate()
-  const isOwner = true // TODO: dato recibido del backend (publication.isOwner)
 
   const handleDelete = async () => {
     const confirmed = window.confirm("¿Estás seguro de que deseas eliminar esta publicación?") // TODO: Usar un modal
@@ -38,7 +37,7 @@ const PublicationDetail = () => {
         </header>
         <p className="text-gray-700 leading-relaxed mb-6 flex-grow">{publication.content}</p>
         <footer>
-        {isOwner && 
+        {publication.hasPermissions && 
         
           <div className="flex justify-between">
             <button className="min-w-[88.27px] bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Editar</button>
