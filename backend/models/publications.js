@@ -6,8 +6,8 @@ export class PublicationModel {
     return { publications }
   }
 
-  static async getById ({ id }) {
-    const publicationDetail = await Publication.findByPk(id, {
+  static async getById ({ id, userId, isAdmin }) {
+    const publication = await Publication.findByPk(id, {
       include: [
         {
           model: User,
@@ -17,11 +17,22 @@ export class PublicationModel {
       ]
     })
 
-    if (!publicationDetail) {
+    if (!publication) {
       return {
         error: { code: 404, message: 'Publication not found' },
         publicationDetail: null
       }
+    }
+
+    const hasPermissions = userId ? (publication.UserId === userId || isAdmin) : false
+
+    const publicationDetail = {
+      id: publication.id,
+      title: publication.title,
+      content: publication.content,
+      publication_date: publication.publication_date,
+      federation: publication.Federation,
+      hasPermissions
     }
 
     return { error: null, publicationDetail }

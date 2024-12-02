@@ -14,9 +14,11 @@ export class PublicationController {
 
   static async getById (req, res) {
     const { id } = req.params
+    const userId = req.user?.id || null
+    const isAdmin = req.user?.isAdmin || false
 
     try {
-      const { error, publicationDetail } = await PublicationModel.getById({ id })
+      const { error, publicationDetail } = await PublicationModel.getById({ id, userId, isAdmin })
 
       if (error) {
         const statusCode = error.code
