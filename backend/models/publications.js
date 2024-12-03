@@ -31,7 +31,7 @@ export class PublicationModel {
       title: publication.title,
       content: publication.content,
       publication_date: publication.publication_date,
-      federation: publication.Federation,
+      FederationId: publication.Federation.id,
       hasPermissions
     }
 
