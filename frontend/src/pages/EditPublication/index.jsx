@@ -36,8 +36,7 @@ const EditPublication = () => {
     }        
   }, [publication, setValue])
   
-  const onSubmit = async (data) => {
-    console.log('Formulario editar: ', data)
+  const onSubmit = async (data) => {    
     try {
       await patchPublication(id, data)
       navigate(`/publication/${id}`)
@@ -47,13 +46,13 @@ const EditPublication = () => {
   }
 
   return (
-    <section>
+    <section className="w-full">
       {loading && <p>Cargando...</p> /**TODO: Crear su propio componente */}
       {error && <p>Hubo un error</p> /**TODO: Crear su propio componente */} 
       {!loading && publication &&
       <form 
         onSubmit={handleSubmit(onSubmit)} 
-        className="bg-white p-6 rounded shadow-md max-w-md w-full"
+        className="bg-white p-6 rounded shadow-md max-w-md w-full mx-auto md:max-w-2xl"
       >
         <h1 className="text-2xl font-bold mb-4">Editar publicación</h1>
         <div className="mb-4">
@@ -70,7 +69,7 @@ const EditPublication = () => {
         <div className="mb-4">
           <label htmlFor="content" className="block text-gray-700">Contenido</label>
           <textarea 
-            className="w-full border border-gray-300 rounded px-3 py-2"
+            className="w-full resize-none border border-gray-300 rounded px-3 py-2 h-56 md:h-80"
             id="content"
             placeholder='El contenido debe tener más de 20 caracteres'
             {...register('content')}
