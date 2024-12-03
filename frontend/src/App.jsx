@@ -18,7 +18,7 @@ function App() {
           <Route path='/publication/:id' element={<PublicationDetail />} />
           <Route path='/login' element={<SignIn />} />
           <Route path='/createAccount' element={<CreateAccount />} />
-          <Route path='/editPublication' element={<EditPublication />} />
+          <Route path='/editPublication/:id' element={<EditPublication />} />
         </Routes>
       </main>
     </>
