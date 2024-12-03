@@ -38,6 +38,16 @@ const NavBar = () => {
         </ul>
         <ul className="flex gap-6">
           {userAuth && (
+            <>
+            <li>
+              <NavLink to={'/createPublication'} className={({ isActive }) => 
+                  `px-4 py-2 rounded ${isActive ? 'bg-gray-700' : 'hover:bg-gray-700'}`
+                }
+                aria-current={isActive => isActive ? 'page' : undefined}
+              >
+                Crear publicación
+              </NavLink>
+            </li>
             <li>
               <NavLink to="/perfil" className={({ isActive }) => 
                   `px-4 py-2 rounded ${isActive ? 'bg-gray-700' : 'hover:bg-gray-700'}`
@@ -47,6 +57,7 @@ const NavBar = () => {
                 Perfil
               </NavLink>
             </li>
+            </>
           )}
           <li>
             {userAuth ? (

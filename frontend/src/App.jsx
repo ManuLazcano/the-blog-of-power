@@ -6,6 +6,7 @@ import { Home } from './pages/Home'
 import { SignIn } from './pages/SignIn'
 import { CreateAccount } from './pages/CreateAccount'
 import { EditPublication } from './pages/EditPublication'
+import { CreatePublication } from './pages/CreatePublication'
 
 function App() {
   
@@ -19,6 +20,7 @@ function App() {
           <Route path='/login' element={<SignIn />} />
           <Route path='/createAccount' element={<CreateAccount />} />
           <Route path='/editPublication/:id' element={<EditPublication />} />
+          <Route path='/createPublication' element={<CreatePublication />} />
         </Routes>
       </main>
     </>
