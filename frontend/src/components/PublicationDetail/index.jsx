@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { deletePublication } from '../../api/publicationApi'
 import { usePublication } from '../../hooks/usePublication'
 
@@ -40,7 +40,12 @@ const PublicationDetail = () => {
         {publication.hasPermissions && 
         
           <div className="flex justify-between">
-            <button className="min-w-[88.27px] bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Editar</button>
+            <Link
+              to={`/editPublication/${publication.id}`}
+              className="min-w-[88.27px] bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+            >
+              Editar
+            </Link>
             <button 
               className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
               onClick={handleDelete}>

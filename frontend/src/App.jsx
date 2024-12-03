@@ -5,6 +5,7 @@ import { PublicationDetail } from './components/PublicationDetail'
 import { Home } from './pages/Home'
 import { SignIn } from './pages/SignIn'
 import { CreateAccount } from './pages/CreateAccount'
+import { EditPublication } from './pages/EditPublication'
 
 function App() {
   
@@ -17,6 +18,7 @@ function App() {
           <Route path='/publication/:id' element={<PublicationDetail />} />
           <Route path='/login' element={<SignIn />} />
           <Route path='/createAccount' element={<CreateAccount />} />
+          <Route path='/editPublication' element={<EditPublication />} />
         </Routes>
       </main>
     </>
