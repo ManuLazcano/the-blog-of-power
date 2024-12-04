@@ -1,9 +1,10 @@
 import { z } from 'zod'
 import { useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useUser } from '../../hooks/useUser'
+import { patchUser } from '../../api/userApi'
 
 const schema = z.object({
   nick_name: z.string().min(3, { message: 'El nickname debe tener al menos 3 caracteres' }),
@@ -12,6 +13,7 @@ const schema = z.object({
 })
 
 const EditProfile = () => {
+  const { id } = useParams()
   const { user, loading, error } = useUser()
   const navigate = useNavigate()
   const { register, handleSubmit, setValue, formState: { errors } } = useForm({
@@ -31,13 +33,17 @@ const EditProfile = () => {
     }        
   }, [user, setValue])
 
-  const onSubmit = (data) => {
-    console.log('Datos enviados:', data)
-    //navigate('/profile')
+  const onSubmit = async (data) => {    
+    try {
+      await patchUser(id, data)
+      navigate(`/profile/${id}`)
+    } catch (err) {
+      console.error(err)        
+    }    
   }
 
   const handleCancel = () => {
-    //navigate('/profile') 
+    navigate(`/profile/${id}`) 
   }
 
   return (
