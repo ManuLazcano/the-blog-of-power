@@ -37,8 +37,13 @@ const EditPublication = () => {
   }, [publication, setValue])
   
   const onSubmit = async (data) => {    
+    const payload = {
+      ...data,
+      FederationId: parseInt(data.federation, 10)
+    }
+    
     try {
-      await patchPublication(id, data)
+      await patchPublication(id, payload)
       navigate(`/publication/${id}`)
     } catch (err) {
       console.error(err)      
