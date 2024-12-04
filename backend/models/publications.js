@@ -32,6 +32,7 @@ export class PublicationModel {
       content: publication.content,
       publication_date: publication.publication_date,
       FederationId: publication.Federation.id,
+      federationName: publication.Federation.federation,
       hasPermissions
     }
 
