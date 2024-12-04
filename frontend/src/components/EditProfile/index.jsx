@@ -1,10 +1,11 @@
 import { z } from 'zod'
-import { useEffect } from 'react'
+import { useContext, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useUser } from '../../hooks/useUser'
-import { patchUser } from '../../api/userApi'
+import { deleteUser, logout, patchUser } from '../../api/userApi'
+import { AuthContext } from '../../context/authContex'
 
 const schema = z.object({
   nick_name: z.string().min(3, { message: 'El nickname debe tener al menos 3 caracteres' }),
@@ -14,6 +15,7 @@ const schema = z.object({
 
 const EditProfile = () => {
   const { id } = useParams()
+  const { setUserAuth} = useContext(AuthContext)
   const { user, loading, error } = useUser()
   const navigate = useNavigate()
   const { register, handleSubmit, setValue, formState: { errors } } = useForm({
@@ -46,9 +48,22 @@ const EditProfile = () => {
     navigate(`/profile/${id}`) 
   }
 
-  const handleDeleteAccount = () => {
-    console.log('Borrar cuenta');
-    
+  const handleDeleteAccount = async () => {    
+    const confirmed = window.confirm("¿Estás seguro de que deseas eliminar la cuenta?") // TODO: Usar un modal
+    if(confirmed) {
+      try {
+        const response = await deleteUser(user.id) 
+        console.log('borrado: ', response)
+         
+        if (response.status === 200) {
+          await logout()
+          setUserAuth(null)
+          navigate('/')
+        }        
+      } catch (err) {
+        console.error(err)       
+      }
+    }
   }
 
   return (
@@ -114,7 +129,7 @@ const EditProfile = () => {
             >
               Guardar
             </button>
-          </div>
+          </div>          
           <div className="mt-4 text-sm text-gray-500 border-t pt-2 flex justify-center hover:text-gray-900">            
             <button type="button" className="font-medium"
               onClick={handleDeleteAccount}
