@@ -32,7 +32,12 @@ export class PublicationController {
   }
 
   static async create (req, res) {
-    const result = validatePublication(req.body)
+    const { id: UserId } = req.user
+    const payload = {
+      ...req.body,
+      UserId
+    }
+    const result = validatePublication(payload)
 
     if (!result.success) {
       return res.status(400).json({
