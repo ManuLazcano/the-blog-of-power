@@ -49,7 +49,7 @@ const NavBar = () => {
               </NavLink>
             </li>
             <li>
-              <NavLink to="/perfil" className={({ isActive }) => 
+              <NavLink to="/profile" className={({ isActive }) => 
                   `px-4 py-2 rounded ${isActive ? 'bg-gray-700' : 'hover:bg-gray-700'}`
                 }
                 aria-current={isActive => isActive ? 'page' : undefined}
