@@ -1,12 +1,33 @@
+import z from 'zod'
 import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { useNavigate } from 'react-router-dom'
+import { postPublication } from '../../api/publicationApi'
+
+const publicationSchema = z.object({
+  title: z.string().min(5, 'El título debe tener al menos 5 caracteres'),
+  content: z.string().min(20, 'El contenido debe tener al menos 20 caracteres'),
+  federation: z.string().min(1, 'Debes seleccionar una federación')
+})
 
 const CreatePublication = () => {
   const navigate = useNavigate()
-  const { register, handleSubmit, formState: { errors } } = useForm()
+  const { register, handleSubmit, formState: { errors } } = useForm({
+    resolver: zodResolver(publicationSchema),
+  })
 
-  const onSubmit = (data) => {
-    console.log('Datos del formulario: ', data)
+  const onSubmit = async (data) => {
+    const payload = {
+      ...data,
+      FederationId: parseInt(data.federation, 10)    
+    }
+  
+    try {
+      await postPublication(payload)
+      navigate('/')
+    } catch (err) {
+      console.error(err)      
+    }
   }
 
   const handleCancel = () => {
