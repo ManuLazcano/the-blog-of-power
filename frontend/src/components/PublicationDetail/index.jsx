@@ -33,9 +33,9 @@ const PublicationDetail = () => {
       {!loading && publication &&         
         <article className="bg-white shadow-md rounded-lg w-full p-6 max-w-2xl mx-auto h-auto min-h-[500px] sm:min-h-[600px] flex flex-col">
         <header>
-          <h1 className="text-3xl font-bold mb-4 text-gray-800">{publication.title}</h1>
+          <h1 className="text-3xl font-bold mb-4 text-gray-800 break-words">{publication.title}</h1>
         </header>
-        <p className="text-gray-700 leading-relaxed mb-6 flex-grow">{publication.content}</p>
+        <p className="text-gray-700 leading-relaxed mb-6 flex-grow break-words">{publication.content}</p>
         <footer>
         {publication.hasPermissions && 
         
