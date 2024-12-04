@@ -1,7 +1,11 @@
+import { Link } from 'react-router-dom'
 import { useUser } from '../../hooks/useUser'
+import { AuthContext } from '../../context/authContex'
+import { useContext } from 'react'
 
 const Perfil = () => {
   const { user, loading, error } = useUser()
+  const { userAuth } = useContext(AuthContext)
 
   return (
     <section className="h-screen w-full p-6 flex items-center justify-center">
@@ -28,12 +32,11 @@ const Perfil = () => {
             </div>
           </div>
           <footer className="mt-6 text-center">
-            <button
-              className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-               onClick={() => console.log('Editar perfil')}
+            <Link to={`/editProfile/${userAuth.userId}`}
+              className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"               
             >
               Editar Perfil
-            </button>
+            </Link>
           </footer>
         </article>
       }
