@@ -46,6 +46,11 @@ const EditProfile = () => {
     navigate(`/profile/${id}`) 
   }
 
+  const handleDeleteAccount = () => {
+    console.log('Borrar cuenta');
+    
+  }
+
   return (
     <section className="w-full max-w-sm flex items-center justify-center bg-gray-100 p-6 mt-8">
       {loading && <p>Cargando...</p> /**TODO: Crear su propio componente */}
@@ -108,6 +113,13 @@ const EditProfile = () => {
               className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
             >
               Guardar
+            </button>
+          </div>
+          <div className="mt-4 text-sm text-gray-500 border-t pt-2 flex justify-center hover:text-gray-900">            
+            <button type="button" className="font-medium"
+              onClick={handleDeleteAccount}
+            >
+              Borrar cuenta
             </button>
           </div>
         </form>
