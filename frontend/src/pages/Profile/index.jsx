@@ -8,7 +8,7 @@ const Perfil = () => {
   const { userAuth } = useContext(AuthContext)
 
   return (
-    <section className="h-screen w-full p-6 flex items-center justify-center">
+    <section className="w-full p-6 flex items-center justify-center mt-8">
       {loading && <p>Cargando...</p> /**TODO: Crear su propio componente */}
       {error && <p>Hubo un error</p> /**TODO: Crear su propio componente */}
       {!loading && user &&

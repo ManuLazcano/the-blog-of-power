@@ -47,7 +47,7 @@ const EditProfile = () => {
   }
 
   return (
-    <section className="min-h-screen flex items-center justify-center bg-gray-100 p-6">
+    <section className="w-full max-w-sm flex items-center justify-center bg-gray-100 p-6 mt-8">
       {loading && <p>Cargando...</p> /**TODO: Crear su propio componente */}
       {error && <p>Hubo un error</p> /**TODO: Crear su propio componente */}
       {!loading && user && (
