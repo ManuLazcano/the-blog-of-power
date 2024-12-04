@@ -37,8 +37,7 @@ const PublicationDetail = () => {
         </header>
         <p className="text-gray-700 leading-relaxed mb-6 flex-grow break-words">{publication.content}</p>
         <footer>
-        {publication.hasPermissions && 
-        
+        {publication.hasPermissions &&         
           <div className="flex justify-between">
             <Link
               to={`/editPublication/${publication.id}`}
@@ -54,8 +53,9 @@ const PublicationDetail = () => {
           </div>
         }      
           {deleteError && <p className="text-red-500 mt-2">{deleteError}</p>}
-          <div className="mt-4 text-sm text-gray-500 border-t pt-2">
-            Publicado el: <span className="font-medium">{publication.publication_date}</span>
+          <div className="mt-4 text-sm text-gray-500 border-t pt-2 flex justify-between">
+            <span>Publicado el: <span className="font-medium">{publication.publication_date}</span></span>
+            <span className="font-medium">{publication.federationName}</span>
           </div>
         </footer>
       </article>
