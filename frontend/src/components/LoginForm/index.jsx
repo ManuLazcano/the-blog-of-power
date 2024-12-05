@@ -3,9 +3,10 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 
-import { loginSchema } from '../../../../shared/schemas/user'
+
 import { login } from '../../api/userApi'
 import { AuthContext } from '../../context/authContex'
+import { loginSchema } from '../../schemas/user'
 
 const LoginForm = () => {
     const { register, handleSubmit, formState: { errors} } = useForm({ resolver: zodResolver(loginSchema) })

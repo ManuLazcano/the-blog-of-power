@@ -1,24 +1,10 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import z from 'zod'
 
 import { useNavigate } from 'react-router-dom'
 import { postUser } from '../../api/userApi'
-
-const userSchema = z.object({
-  nick_name: z.string()
-    .min(1, 'El campo "ninck_name" no puede estar vacío')
-    .max(30, 'El campo "ninck_name" no debe exceder los 30 caracteres'),
-  name: z.string()
-    .min(1, 'El campo "name" no puede estar vacío')
-    .max(50, 'El campo "name" no debe exceder los 50 caracteres'),
-  email: z.string()
-    .email('El correo electrónico no es válido')
-    .min(1, 'Ingrese un email')
-    .max(60, 'El "email" no debe exceder los 60 caracteres'),
-  password: z.string().min(1, 'Ingrese una contraseña')   
-}) // TODO FIX: No puedo importar el esquema 'userSchema' del esquema que se comparte de manera global
+import { userSchema } from '../../schemas/user'
 
 const CreateAccount = () => {
   const [error, setError] = useState('')

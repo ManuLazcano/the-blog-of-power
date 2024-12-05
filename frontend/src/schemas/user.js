@@ -19,16 +19,7 @@ const loginSchema = userSchema.pick({
   password: true
 })
 
-const validateUser = (object) => {
-  return userSchema.safeParse(object)
-}
-
-const validateParcialUser = (object) => {
-  return userSchema.partial().safeParse(object)
-}
-
 export {
-    loginSchema,
-    validateUser,
-    validateParcialUser
+  userSchema,
+  loginSchema
 }
