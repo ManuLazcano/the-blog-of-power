@@ -93,6 +93,10 @@ export class UserController {
     const { id } = req.params
     const { id: userId, isAdmin } = req.user
 
+    if (isAdmin && (userId === id)) {
+      return res.status(403).json({ message: 'No puedes eliminar tu propia cuenta de administrador' })
+    }
+
     try {
       const { error } = await UserModel.delete({ id, userId, isAdmin })
 
