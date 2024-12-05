@@ -5,22 +5,14 @@ import { zodResolver } from '@hookform/resolvers/zod'
 
 import { usePublication } from '../../hooks/usePublication'
 import { patchPublication } from '../../api/publicationApi'
-import z from 'zod'
-
-const editPublicationSchema = z.object({
-  title: z.string().min(5, 'El título debe tener al menos 5 caracteres'),
-  content: z.string().min(20, 'El contenido debe tener al menos 20 caracteres'),
-  federation: z.enum(['1', '2', '3', '4'], {
-    required_error: 'La federación seleccionada no es válida',
-  })
-})
+import { publicationSchema } from '../../schemas/publication'
 
 const EditPublication = () => {
   const { id } = useParams()
   const navigate = useNavigate()
   const { publication, loading, error } = usePublication()
   const { register, handleSubmit, setValue, formState: { errors }} = useForm({ 
-    resolver: zodResolver(editPublicationSchema),
+    resolver: zodResolver(publicationSchema),
     defaultValues: {
       title: '',
       content: '',
