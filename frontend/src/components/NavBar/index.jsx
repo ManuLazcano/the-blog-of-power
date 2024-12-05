@@ -35,6 +35,17 @@ const NavBar = () => {
               Home
             </NavLink>
           </li>
+          {userAuth && userAuth.isAdmin &&
+            <li>
+              <NavLink to={'/dashboard'} className={({ isActive }) => 
+                `px-4 py-2 rounded ${isActive ? 'bg-gray-700' : 'hover:bg-gray-700'}`
+                }
+                aria-current={isActive => isActive ? 'page' : undefined}
+              >
+                Dashboard
+              </NavLink>
+            </li>
+          }
         </ul>
         <ul className="flex gap-6">
           {userAuth && (

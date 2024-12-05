@@ -9,6 +9,7 @@ import { EditPublication } from './pages/EditPublication'
 import { CreatePublication } from './pages/CreatePublication'
 import { Perfil } from './pages/Profile'
 import { EditProfile } from './components/EditProfile'
+import { Dashboard } from './pages/Dashboard'
 
 function App() {
   
@@ -25,6 +26,7 @@ function App() {
           <Route path='/createPublication' element={<CreatePublication />} />
           <Route path='/profile/:id' element={<Perfil />} />
           <Route path='/editProfile/:id' element={<EditProfile />} />
+          <Route path='/dashboard' element={<Dashboard />} />
         </Routes>
       </main>
     </>
