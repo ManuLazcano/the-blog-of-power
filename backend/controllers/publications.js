@@ -1,5 +1,5 @@
 import { PublicationModel } from '../models/publications.js'
-import { validatePublication, validateParcialPublication } from '../../shared/schemas/publication.js'
+import { validatePublication, validateParcialPublication } from '../schemas/publication.js'
 
 export class PublicationController {
   static async getAll (req, res) {
