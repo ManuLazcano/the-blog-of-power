@@ -118,7 +118,7 @@ export class UserController {
     }
 
     try {
-      const { error, token, userId } = await UserModel.login({ input: result.data })
+      const { error, token, userId, isAdmin } = await UserModel.login({ input: result.data })
 
       if (error) {
         const statusCode = error.code
@@ -132,7 +132,7 @@ export class UserController {
           sameSite: 'strict',
           maxAge: 1000 * 60 * 60
         })
-        .status(200).json({ message: 'Valid authentication', userId })
+        .status(200).json({ message: 'Valid authentication', userId, isAdmin })
     } catch (err) {
       console.error('Error: ', err)
       res.status(500).json({ message: 'An error occurred while logging in' })

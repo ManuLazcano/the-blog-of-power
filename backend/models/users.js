@@ -144,6 +144,6 @@ export class UserModel {
       }
     )
 
-    return { error: null, token, userId: user.id }
+    return { error: null, token, userId: user.id, isAdmin }
   }
 }
