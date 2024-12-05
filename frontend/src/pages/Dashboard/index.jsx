@@ -18,8 +18,10 @@ const Dashboard = () => {
     if (confirmed) {
       try {
         setDeletingUserId(userId)
-        await deleteUser(userId)        
-        setLocalUsers((prevUsers) => prevUsers.filter((user) => user.id !== userId))
+        const response = await deleteUser(userId)        
+        if (response.status === 200) {
+          setLocalUsers((prevUsers) => prevUsers.filter((user) => user.id !== userId))
+        }    
       } catch (err) {
         console.error('Error al eliminar el usuario:', err)        
       } finally {
