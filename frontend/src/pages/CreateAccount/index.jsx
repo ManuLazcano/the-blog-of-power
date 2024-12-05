@@ -18,9 +18,7 @@ const CreateAccount = () => {
   
       if (!response) {
         throw new Error('No se pudo crear la cuenta')
-      }
-  
-      alert('Cuenta creada exitosamente. Por favor, inicia sesión.')
+      }      
       navigate('/login')
     } catch (err) {
       setError(err.message)
