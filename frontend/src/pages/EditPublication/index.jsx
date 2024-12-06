@@ -6,6 +6,8 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { usePublication } from '../../hooks/usePublication'
 import { patchPublication } from '../../api/publicationApi'
 import { publicationSchema } from '../../schemas/publication'
+import { EditPublicationSkeleton } from '../../components/loadings-skeleton/EditPublicationSkeleton'
+import { Error } from '../../components/Error'
 
 const EditPublication = () => {
   const { id } = useParams()
@@ -44,8 +46,8 @@ const EditPublication = () => {
 
   return (
     <section className="w-full">
-      {loading && <p>Cargando...</p> /**TODO: Crear su propio componente */}
-      {error && <p>Hubo un error</p> /**TODO: Crear su propio componente */} 
+       {loading && <EditPublicationSkeleton />} 
+       {error && <Error message="Hubo un error al cargar la publicación." />}
       {!loading && publication &&
       <form 
         onSubmit={handleSubmit(onSubmit)} 
