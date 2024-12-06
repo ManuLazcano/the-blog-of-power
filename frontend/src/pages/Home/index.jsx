@@ -1,6 +1,8 @@
 import { useListPublications } from '../../hooks/useListPublications'
 import { PublicationList } from '../../components/PublicationList'
 import { PublicationItem } from '../../components/PublicationItem'
+import { PublicationItemSkeleton } from '../../components/loadings-skeleton/PublicationItem'
+import { Error } from '../../components/Error'
 
 
 const Home = () => {
@@ -9,8 +11,15 @@ const Home = () => {
   return (
     <>   
       <PublicationList >
-        {loading && <p>Cargando...</p> /**TODO: Crear su propio componente */}
-        {error && <p>Hubo un error</p> /**TODO: Crear su propio componente */}
+        {loading &&
+          <>
+            <PublicationItemSkeleton />
+            <PublicationItemSkeleton />
+            <PublicationItemSkeleton />
+            <PublicationItemSkeleton />
+          </>
+        }
+        {error && <Error message="No se pudieron cargar las publicaciones. Intenta de nuevo más tarde." />}
         {publications.map(({id, title, content, publication_date}) => (
           <PublicationItem 
             key={id}
