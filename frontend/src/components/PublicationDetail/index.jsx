@@ -2,6 +2,8 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { deletePublication } from '../../api/publicationApi'
 import { usePublication } from '../../hooks/usePublication'
+import { PublicationDetailSkeleton } from '../loadings-skeleton/PublicationDetail'
+import { Error } from '../Error'
 
 const PublicationDetail = () => {
   const { publication, loading, error } = usePublication()
@@ -27,9 +29,9 @@ const PublicationDetail = () => {
 
   return (
     <section className="h-screen w-full">
-      {loading && <p>Cargando...</p> /**TODO: Crear su propio componente */}
-      {error && <p>Hubo un error</p> /**TODO: Crear su propio componente */}      
-      {!loading && publication &&         
+      {loading && <PublicationDetailSkeleton />}
+      {error && <Error message="No se pudo cargar el detalle de la publicación. Por favor, intenta nuevamente más tarde." />}
+      {!loading && !error && publication &&         
         <article className="bg-white shadow-md rounded-lg w-full p-6 max-w-2xl mx-auto h-auto min-h-[500px] sm:min-h-[600px] flex flex-col">
         <header>
           <h1 className="text-3xl font-bold mb-4 text-gray-800 break-words">{publication.title}</h1>
