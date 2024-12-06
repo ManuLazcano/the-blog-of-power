@@ -6,8 +6,10 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useUser } from '../../hooks/useUser'
 import { deleteUser, logout, patchUser } from '../../api/userApi'
 import { AuthContext } from '../../context/authContex'
+import { EditProfileSkeleton } from '../loadings-skeleton/EditProfileSkeleton'
+import { Error } from '../Error'
 
-const schema = z.object({
+const schema = z.object({ // TO-DO: congirar esquema en su respectiva carpeta
   nick_name: z.string().min(3, { message: 'El nickname debe tener al menos 3 caracteres' }),
   name: z.string().min(2, { message: 'El nombre debe tener al menos 2 caracteres' }),
   email: z.string().email({ message: 'Debe ser un correo electrónico válido' })
@@ -73,8 +75,8 @@ const EditProfile = () => {
 
   return (
     <section className="w-full max-w-sm flex items-center justify-center bg-gray-100 p-6 mt-8">
-      {loading && <p>Cargando...</p> /**TODO: Crear su propio componente */}
-      {error && <p>Hubo un error</p> /**TODO: Crear su propio componente */}
+      {loading && <EditProfileSkeleton />}
+      {error && <Error message="No se pudo cargar el perfil. Por favor, intenta nuevamente más tarde." />}
       {!loading && user && (
         <form
           className="bg-white shadow-md rounded-lg w-full max-w-md p-6 space-y-4"
