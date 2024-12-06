@@ -2,6 +2,8 @@ import { Link } from 'react-router-dom'
 import { useUser } from '../../hooks/useUser'
 import { AuthContext } from '../../context/authContex'
 import { useContext } from 'react'
+import { ProfileSkeleton } from '../../components/loadings-skeleton/ProfileSkeleton'
+import { Error } from '../../components/Error'
 
 const Perfil = () => {
   const { user, loading, error } = useUser()
@@ -9,8 +11,8 @@ const Perfil = () => {
 
   return (
     <section className="w-full p-6 flex items-center justify-center mt-8">
-      {loading && <p>Cargando...</p> /**TODO: Crear su propio componente */}
-      {error && <p>Hubo un error</p> /**TODO: Crear su propio componente */}
+      {loading && <ProfileSkeleton />} 
+      {error && <Error message="Hubo un error al cargar el perfil." />}
       {!loading && user &&
         <article className="bg-white shadow-md rounded-lg w-full max-w-sm p-6 mx-auto">
           <header className="mb-6 text-center">
