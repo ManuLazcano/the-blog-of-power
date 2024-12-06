@@ -52,8 +52,7 @@ const EditProfile = () => {
     const confirmed = window.confirm("¿Estás seguro de que deseas eliminar la cuenta?") // TODO: Usar un modal
     if(confirmed) {
       try {
-        const response = await deleteUser(user.id) 
-        console.log('borrado: ', response)
+        const response = await deleteUser(user.id)         
          
         if (response.status === 200) {
           await logout()

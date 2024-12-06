@@ -13,8 +13,7 @@ const PublicationDetail = () => {
     
     if(confirmed) {
       try {
-        const response = await deletePublication(publication.id)        
-        console.log('borrado: ', response);
+        const response = await deletePublication(publication.id)                
         
         if(response.status === 200) {
           navigate('/')
