@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { deletePublication } from '../../api/publicationApi'
 import { usePublication } from '../../hooks/usePublication'
-import { PublicationDetailSkeleton } from '../loadings-skeleton/PublicationDetail'
+import { PublicationDetailSkeleton } from '../loadings-skeleton/PublicationDetailSkeleton'
 import { Error } from '../Error'
 
 const PublicationDetail = () => {

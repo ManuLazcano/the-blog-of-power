@@ -1,7 +1,7 @@
 import { useListPublications } from '../../hooks/useListPublications'
 import { PublicationList } from '../../components/PublicationList'
 import { PublicationItem } from '../../components/PublicationItem'
-import { PublicationItemSkeleton } from '../../components/loadings-skeleton/PublicationItem'
+import { PublicationItemSkeleton } from '../../components/loadings-skeleton/PublicationItemSkeleton'
 import { Error } from '../../components/Error'
 
 
