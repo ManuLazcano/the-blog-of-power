@@ -15,7 +15,7 @@ const schema = z.object({
 
 const EditProfile = () => {
   const { id } = useParams()
-  const { setUserAuth} = useContext(AuthContext)
+  const { setUserAuth, userAuth } = useContext(AuthContext)
   const { user, loading, error } = useUser()
   const navigate = useNavigate()
   const { register, handleSubmit, setValue, formState: { errors } } = useForm({
@@ -50,6 +50,12 @@ const EditProfile = () => {
 
   const handleDeleteAccount = async () => {    
     const confirmed = window.confirm("¿Estás seguro de que deseas eliminar la cuenta?") // TODO: Usar un modal
+
+    if (confirmed && userAuth.isAdmin && (id === userAuth.userId)) { // TO-DO: usar un modal
+      alert('No puede eliminar su propia cuenta de administrador')
+      return
+    }
+
     if(confirmed) {
       try {
         const response = await deleteUser(user.id)         

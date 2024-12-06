@@ -1,20 +1,28 @@
 import { useListUsers } from '../../hooks/useListUsers'
 import { deleteUser } from '../../api/userApi'
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
+import { AuthContext } from '../../context/authContex'
 
 const Dashboard = () => {
   const { users, loading, error } = useListUsers()
   const [deletingUserId, setDeletingUserId] = useState(null)
   const [localUsers, setLocalUsers] = useState([])
+  const { userAuth } = useContext(AuthContext)
   
   useEffect(() => {
     if (users) {
-        setLocalUsers(users)
+      setLocalUsers(users)
     }
   }, [users])
 
   const handleDelete = async (userId) => {
     const confirmed = confirm('¿Estás seguro de que deseas eliminar este usuario?')
+
+    if (confirmed && (userId === userAuth.userId)) { // TO-DO: usar un modal
+      alert('No puede eliminar su propia cuenta de administrador')
+      return
+    }
+  
     if (confirmed) {
       try {
         setDeletingUserId(userId)
