@@ -1,7 +1,12 @@
 import bcrypt from 'bcrypt'
 import { randomUUID } from 'node:crypto'
+import dotenv from 'dotenv'
 
 import { User, Federation, Publication, Rol } from './config.js'
+
+if (process.env.NODE_ENV !== 'production') {
+  dotenv.config()
+}
 
 const isDatabaseEmpty = async () => {
   const rolesCount = await Rol.count()
@@ -31,10 +36,10 @@ const createData = async () => {
       },
       {
         id: userTwoId,
-        nick_name: 'admin_user',
-        name: 'Admin User',
-        email: 'admin.user@example.com',
-        password: await bcrypt.hash('adminpassword123', 10),
+        nick_name: process.env.ADMIN_NICKNAME,
+        name: process.env.ADMIN_NAME,
+        email: process.env.ADMIN_EMAIL,
+        password: await bcrypt.hash(process.env.ADMIN_PASSWORD, 10),
         RolId: 1
       },
       {
