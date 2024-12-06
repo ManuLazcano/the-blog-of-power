@@ -38,17 +38,17 @@ const PublicationDetail = () => {
         <footer>
         {publication.hasPermissions &&         
           <div className="flex justify-between">
+            <button 
+              className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+              onClick={handleDelete}>
+                Eliminar
+            </button>            
             <Link
               to={`/editPublication/${publication.id}`}
               className="min-w-[88.27px] bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
             >
               Editar
             </Link>
-            <button 
-              className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
-              onClick={handleDelete}>
-                Eliminar
-            </button>            
           </div>
         }      
           {deleteError && <p className="text-red-500 mt-2">{deleteError}</p>}
