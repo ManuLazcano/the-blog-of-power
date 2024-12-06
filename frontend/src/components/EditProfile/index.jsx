@@ -1,4 +1,3 @@
-import { z } from 'zod'
 import { useContext, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
@@ -8,12 +7,7 @@ import { deleteUser, logout, patchUser } from '../../api/userApi'
 import { AuthContext } from '../../context/authContex'
 import { EditProfileSkeleton } from '../loadings-skeleton/EditProfileSkeleton'
 import { Error } from '../Error'
-
-const schema = z.object({ // TO-DO: congirar esquema en su respectiva carpeta
-  nick_name: z.string().min(3, { message: 'El nickname debe tener al menos 3 caracteres' }),
-  name: z.string().min(2, { message: 'El nombre debe tener al menos 2 caracteres' }),
-  email: z.string().email({ message: 'Debe ser un correo electrónico válido' })
-})
+import { editSchema } from '../../schemas/user'
 
 const EditProfile = () => {
   const { id } = useParams()
@@ -21,7 +15,7 @@ const EditProfile = () => {
   const { user, loading, error } = useUser()
   const navigate = useNavigate()
   const { register, handleSubmit, setValue, formState: { errors } } = useForm({
-    resolver: zodResolver(schema),
+    resolver: zodResolver(editSchema),
     defaultValues: {
       nick_name: user?.nick_name || '',
       name: user?.name || '',
