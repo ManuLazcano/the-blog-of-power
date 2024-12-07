@@ -79,7 +79,11 @@ cd ../frontend
 npm run dev
 ```
 
+<<<<<<< HEAD
 7. Abre tu navegador en la URL que indique Vite para el frontend.
+=======
+7. Abre tu navegador la URL que indique Vite para el frontend.
+>>>>>>> 9ec28a1079d006571d36d22e74c1913d81a98c5f
 
 
 ## Estructura del proyecto
