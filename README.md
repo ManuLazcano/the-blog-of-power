@@ -81,7 +81,6 @@ npm run dev
 
 7. Abre tu navegador en la URL que indique Vite para el frontend.
 
-
 ## Estructura del proyecto
 ```bash
 the-blog-of-power/
