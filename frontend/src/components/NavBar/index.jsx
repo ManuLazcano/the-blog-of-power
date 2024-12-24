@@ -3,16 +3,20 @@ import { NavLink, useNavigate } from 'react-router-dom'
 
 import { AuthContext } from '../../context/authContex'
 import { logout } from '../../api/userApi'
+import { getItemInLocalStorageWithExpiration } from '../../utils/localStorage'
 
 const NavBar = () => {
   const { userAuth, setUserAuth} = useContext(AuthContext)
   const navigate = useNavigate()
 
   useEffect(() => {
-    const user = JSON.parse(localStorage.getItem('user'))
-    if (user) {
-      setUserAuth(user)
+    const user = getItemInLocalStorageWithExpiration('user')
+
+    if(!user) {      
+      return
     }
+    setUserAuth(user)
+    
   }, [setUserAuth])
 
   const handleLogout = async () => {

@@ -7,6 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { login } from '../../api/userApi'
 import { AuthContext } from '../../context/authContex'
 import { loginSchema } from '../../schemas/user'
+import { setItemInLocalStorageWithExpiration } from '../../utils/localStorage'
 
 const LoginForm = () => {
     const { register, handleSubmit, formState: { errors} } = useForm({ resolver: zodResolver(loginSchema) })
@@ -25,7 +26,9 @@ const LoginForm = () => {
         }
   
         setUserAuth(response.data)
-        localStorage.setItem('user', JSON.stringify(response.data))
+        const userId = response.data.userId
+        const isAdmin = response.data.isAdmin
+        setItemInLocalStorageWithExpiration('user', { userId, isAdmin}, 60)
         
         navigate('/')
       } catch (err) {

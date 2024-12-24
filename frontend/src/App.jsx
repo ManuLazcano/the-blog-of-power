@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import { NavBar } from './components/NavBar'
 
@@ -10,8 +11,15 @@ import { CreatePublication } from './pages/CreatePublication'
 import { Perfil } from './pages/Profile'
 import { EditProfile } from './components/EditProfile'
 import { Dashboard } from './pages/Dashboard'
+import { clearExpiredItemsInLocalStorage } from './utils/localStorage'
 
 function App() {
+
+  useEffect(() => {
+    const interval = setInterval(clearExpiredItemsInLocalStorage, 5 * 60 * 1000) // 5 minutos
+    
+    return () => clearInterval(interval) // Limpia el intervalo al desmontar
+  }, [])
   
   return (
     <>
