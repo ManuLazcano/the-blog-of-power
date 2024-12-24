@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 
 import { AuthContext } from '../../context/authContex'
@@ -8,6 +8,13 @@ const NavBar = () => {
   const { userAuth, setUserAuth} = useContext(AuthContext)
   const navigate = useNavigate()
 
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem('user'))
+    if (user) {
+      setUserAuth(user)
+    }
+  }, [setUserAuth])
+
   const handleLogout = async () => {
     try {
       const response = await logout()
@@ -16,6 +23,7 @@ const NavBar = () => {
       }      
 
       setUserAuth(null)
+      localStorage.removeItem('user')
       navigate('/')
     } catch (error) {
       console.error(error.message)

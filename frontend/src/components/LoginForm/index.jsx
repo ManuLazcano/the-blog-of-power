@@ -25,6 +25,8 @@ const LoginForm = () => {
         }
   
         setUserAuth(response.data)
+        localStorage.setItem('user', JSON.stringify(response.data))
+        
         navigate('/')
       } catch (err) {
         setError(err.message || 'Hubo un error al iniciar sesión');
