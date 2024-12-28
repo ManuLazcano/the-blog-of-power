@@ -5,6 +5,7 @@ import cookieParser from 'cookie-parser'
 
 import { publicationRouter } from './routes/publications.js'
 import { userRouter } from './routes/users.js'
+import { corsOptions } from './utils/configCors.js'
 
 if (process.env.NODE_ENV !== 'production') {
   dotenv.config()
@@ -14,10 +15,7 @@ const PORT = process.env.PORT ?? 3000
 const app = express()
 
 app.use(express.json())
-app.use(cors({
-  origin: process.env.FRONTEND_URL,
-  credentials: true
-}))
+app.use(cors(corsOptions))
 app.use(cookieParser())
 app.disable('x-powered-by')
 
